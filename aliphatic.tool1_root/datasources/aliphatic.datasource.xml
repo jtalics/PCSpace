@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataSource>
+<!--Generated on Sat Mar 29 10:48:01 EDT 2008 by NCGC PCSpace (v62alpha) v0.0.0.0 -->
+<name>aliphatic</name>
+<dataSourceFile>C:\Documents and Settings\talafous\git\JTALICS\tool1\aliphatic.tool1_root\datasources\aliphatic.datasource.txt</dataSourceFile>
+<datumCount>35</datumCount>
+<directories>
+<directory>C:\Documents and Settings\talafous\git\JTALICS\tool1\aliphatic.tool1_root\datasources\aliphatic</directory>
+</directories>
+</dataSource>

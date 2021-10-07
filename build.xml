@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="tool1" basedir="." default="war">
+	<property name="builddir" value="c:/pcspace_build" />
+	<property name="warfile" value="${builddir}/pcspace.war" />
+	<property name="wardir" value="${builddir}/pcspace_war" />
+	<property name="projects" value="/projects/eclipse_workspace" />
+	<property name="deploydir" value="C:\jboss-4.2.2.GA\server\default\deploy" />
+
+	<target name="war" depends="sign">
+		<war destfile="${warfile}" webxml="${wardir}/web.xml">
+			<fileset dir="${wardir}/" />
+		</war>
+		<copy file="${warfile}" toDir="${deploydir}" />
+	</target>
+
+	<target name="sign" depends="compile">
+		<signjar jar="${wardir}/pcspace/pcspace.jar" alias="PCSpace" keystore="PCSpace_keystore" storepass="secret">
+		</signjar>
+	</target>
+
+	<target name="makekey" depends="compile">
+		<genkey alias="pcspace" storepass="secret" keystore="pcspace_keystore">
+			<dname>
+				<param name="CN" value="NIH/NCGC/Joe Talafous" />
+				<param name="OU" value="NCGC Informatics Group" />
+				<param name="O" value="NIH" />
+				<param name="C" value="US" />
+			</dname>
+		</genkey>
+	</target>
+
+	<target name="compile" depends="compile-plugins,compile-operators,compile-descriptors,compile-pcspace">
+	</target>
+
+	<target name="compile-pcspace">
+		<copy file="${builddir}/pcspace.jar" tofile="${wardir}/pcspace/pcspace.jar" />
+		<copy file="${builddir}/pcspace.zip" tofile="${wardir}/pcspace/pcspace.zip" />
+		<zip destfile="${wardir}/pcspace_root.zip" basedir="${builddir}/PCSpace_root_for_demo" />
+
+		<copy todir="${wardir}/pcspace/docs/api">
+			<fileset dir="${projects}/tool1/docs/api" />
+		</copy>
+	</target>
+
+	<target name="compile-descriptors">
+		<copy file="${builddir}/pcspace_descriptors.jar" tofile="${wardir}/pcspace_descriptors/pcspace_descriptors.jar" />
+		<copy file="${builddir}/pcspace_descriptors.zip" tofile="${wardir}/pcspace_descriptors/pcspace_descriptors.zip" />
+		<copy todir="${wardir}/pcspace_descriptors/docs/api">
+			<fileset dir="${projects}/pcspace_descriptors/docs/api" />
+		</copy>
+	</target>
+
+	<target name="compile-operators">
+		<copy file="${builddir}/pcspace_operators.jar" tofile="${wardir}/pcspace_operators/pcspace_operators.jar" />
+		<copy file="${builddir}/pcspace_operators.zip" tofile="${wardir}/pcspace_operators/pcspace_operators.zip" />
+		<copy todir="${wardir}/pcspace_operators/docs/api">
+			<fileset dir="${projects}/pcspace_operators/docs/api" />
+		</copy>
+	</target>
+
+	<target name="compile-plugins">
+		<copy file="${builddir}/pcspace_plugins.jar" tofile="${wardir}/pcspace_plugins/pcspace_plugins.jar" />
+		<copy file="${builddir}/pcspace_plugins.zip" tofile="${wardir}/pcspace_plugins/pcspace_plugins.zip" />
+
+		<copy todir="${wardir}/pcspace_plugins/docs/api">
+			<fileset dir="${projects}/pcspace_plugins/docs/api" />
+		</copy>
+	</target>
+
+	<target name="clean">
+		<delete file="${builddir}/pcspace.jar" />
+		<delete file="${builddir}/pcspace.zip" />
+		<delete file="${wardir}/pcspace/pcspace.jar" />
+		<delete file="${wardir}/pcspace/pcspace.zip" />
+
+		<delete file="${builddir}/pcspace_descriptors.jar" />
+		<delete file="${builddir}/pcspace_descriptors.zip" />
+		<delete file="${wardir}/pcspace_descriptors/pcspace_descriptors.jar" />
+		<delete file="${wardir}/pcspace_descriptors/pcspace_descriptors.zip" />
+
+		<delete file="${builddir}/pcspace_operators.jar" />
+		<delete file="${builddir}/pcspace_operators.zip" />
+		<delete file="${wardir}/pcspace_plugins/pcspace_operators.jar" />
+		<delete file="${wardir}/pcspace_plugins/pcspace_operators.zip" />
+
+		<delete file="${builddir}/pcspace_plugins.jar" />
+		<delete file="${builddir}/pcspace_plugins.zip" />
+		<delete file="${wardir}/pcspace_plugins/pcspace_plugins.jar" />
+		<delete file="${wardir}/pcspace_plugins/pcspace_plugins.zip" />
+
+		<delete file="${builddir}/pcspace.war" />
+		<delete file="${builddir}/pcspace_root.zip" />
+	</target>
+
+</project>
